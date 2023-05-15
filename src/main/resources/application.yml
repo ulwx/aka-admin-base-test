@@ -1,0 +1,81 @@
+server:
+  port: 8088
+  servlet:
+    context-path: /sun
+logging:
+  config: classpath:logback-spring.xml
+# 命名空间映射，每个命名空间对应一个包，命名空间类似struts2的命名空间，用于隔离请求
+aka:
+  webvc:
+    namespaces: #下面定义命名空间名称
+      testapi:
+        package-name: org.github.ulwx.aka.admin.test.action
+        url-maps:
+          "[*_*_*]":
+            allow-methods: post,get
+  admin-base:
+    debug-filter:
+      #为了调试用，当修改代码后，不用每次都去登录，而根据下面的配置去构造一个用户存放到session里
+      enable: true
+      username: adminjyd100
+    login-config:
+      #新建用户时的初始化密码
+      init-password: yscf888.com
+      sms:
+        #登录短信验证规则，可以指定 all ，如果指定为all说明所有人不需要手机验证码，只需要输入test-to-no-fix-smscode指定的值即可，
+        #如果指定手机号码（可以指定多个，以逗号隔开），只有指定手机号码的人不需要手机验证码，只需要输入test-to-no-fix-smscode指定的值即可
+        test-to: all
+        #在login.sms.test-to=no有效，指定一个固定的手机验证码，登录时输入此验证码，测通过验证
+        test-to-no-fix-smscode: 123456
+        #短信验证码发送插件类，通过此类发送短信，继承com.github.ulwx.aka.admin.services.service.ILoginSms
+        login-sms-plugin: com.github.ulwx.aka.admin.test.LogSmsImpl
+        #登录时构造com.github.ulwx.aka.webmvc.domain.SessionUserInfo对象里的extInfo字段，用于应用自身使用，
+        #需扩展com.github.ulwx.aka.admin.web.action.utils.LoginUserInfPlugin的实现。
+      user-ext-inf-plugin: NONE
+      #前端登录密码rsa加密私钥
+      client-private-key: MIIBVAIBADANBgkqhkiG9w0BAQEFAASCAT4wggE6AgEAAkEAi/52sB31O/1aBK72kQzcs9NskBDoJPgp1VVPHFn0BjyHRwNJ2V/MlmSO/WrsrtI+xqPCgTFd/h9BmXufQ4Q3AwIDAQABAkAY++DSrYYGnsBh9Zera1A4B5NoYpwLfP56RC9KMAOM2RwMqizZmAVmIdFl2gSYxkQxzn1T60kzJ1aq0KIN/zUBAiEA306hOO5Ky+xyELhYwKJtJrecVE3cWWc1K6ZrUHyxbjsCIQCgfVMmMsR6Obk+tvzuWecWIYf5h4sDOQww3j3nJVnl2QIgBGHAnCNg6Ft9aYKUi0MkrSvRL35Popl5259qX6vyt10CIAY3tL/3GYuOrvGSD0yAqSY/WFA/gxA15pYCFi3dUZVJAiEA127BTg/iYElzgIDzLJi32ZR/0/huE+nwCY9YwXrbW1w=
+  file-upload:
+    upload-url:
+      single: http://dev.jyd100.com:7979/fileUpload/intf/v1/file/CrossUpload
+      #多文件上传URL
+      many: http://dev.jyd100.com:7979/fileUpload/intf/v1/file/CrossUploadMany
+      #上传活动zip的URL
+      activity: http://dev.jyd100.com:7979/fileUpload/intf/v1/file/CrossUploadActivity
+      #直连上传文件
+      direct: http://dev.jyd100.com:7979/fileUpload/intf/v1/file/Upload
+    #文件浏览地址
+    list-url: http://dev.jyd100.com:7979/fileUpload/list.jsp?dir=/
+
+  dbutils:
+    table-colum-rule: underline_to_camel
+    table-name-rule: underline_to_camel
+    dynamic-ds:
+      default-ds: sysdb
+      ds-type:
+        druid: #
+          initial-size: 1
+          min-idle: 2
+          maxActive: 8
+          maxWait: 60000
+          timeBetweenEvictionRunsMillis: 60000
+          minEvictableIdleTimeMillis: 300000
+          validationQuery: SELECT 1
+          testWhileIdle: true
+          testOnBorrow: false
+          testOnReturn: false
+          poolPreparedStatements: true
+          maxPoolPreparedStatementPerConnectionSize: 20
+          filters: stat
+          connectionProperties: druid.stat.slowSqlMillis=3000
+          stat :
+            mergeSql: false
+      datasources:
+        #和com.github.ulwx.aka.admin.web.action.sys.services.dao.sysdb这个包最后的sysdb一致
+        sysdb:
+          druid:
+            enable: true
+          username: root
+          password: 123456
+          driver-class-name: com.mysql.jdbc.Driver
+          url: jdbc:mysql://localhost:3306/common-base?characterEncoding=utf8&useSSL=false
+
