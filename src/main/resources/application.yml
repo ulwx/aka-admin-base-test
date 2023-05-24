@@ -14,6 +14,7 @@ aka:
           "[*_*_*]":
             allow-methods: post,get
   admin-base:
+    ds-name: sysdb
     debug-filter:
       #为了调试用，当修改代码后，不用每次都去登录，而根据下面的配置去构造一个用户存放到session里
       enable: true

@@ -26,24 +26,18 @@ import java.util.List;
 @Tag(name = "用户接口",description = "通用用户接口" )
 public class UserAction extends ActionSupport {
 
-
     @Parameters({
             @Parameter(name="username",description="用户名称", required = true),
             @Parameter(name="userpass",description="用户密码", required = true),
             @Parameter(name="smscode",description="短信验证码", required = true)
     })
-
     @Operation(summary  = "登录",
             description  ="用于用户登录",
             requestBody = @RequestBody(
                     description = "Form data in the application/x-www-form-urlencoded format",
                     content = @Content(
                             mediaType = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
-                            schema = @Schema(type = "object"),
-                            schemaProperties = {
-                                    @SchemaProperty(name = "charset",schema = @Schema(type="string",defaultValue = "1234")),
-                                    @SchemaProperty(name = "version",schema = @Schema(type="integer",defaultValue = "123456"))
-                            }
+                            schema = @Schema(type = "object", implementation = RequestBodyBean.class)
                     )
             ),
             responses = {
@@ -70,7 +64,7 @@ public class UserAction extends ActionSupport {
         String userPass=ru.getTrimString("userpass");
         String smsCode=ru.getTrimString("smscode");
         if(userName.isEmpty()){
-            return this.JSON_ERR("用户姓名不能为空！");
+            return this.JsonViewError("用户姓名不能为空！");
         }
         LoginRes loginRes=new LoginRes();
         loginRes.setMessage("登录成功！");
@@ -78,8 +72,28 @@ public class UserAction extends ActionSupport {
         loginRes.setToken(token);
         HttpSession session=this.getRequest().getSession(true);
         session.setAttribute("token",token);
-        return this.JSON_SUC(loginRes);
+        return this.JsonViewSuc(loginRes);
 
+    }
+    public static class RequestBodyBean{
+        private String charset;
+        private Integer version;
+
+        public String getCharset() {
+            return charset;
+        }
+
+        public void setCharset(String charset) {
+            this.charset = charset;
+        }
+
+        public Integer getVersion() {
+            return version;
+        }
+
+        public void setVersion(Integer version) {
+            this.version = version;
+        }
     }
     @Schema(name = "LoginRes",description = "登录响应")
     public static class LoginRes{
@@ -141,7 +155,7 @@ public class UserAction extends ActionSupport {
         user2.setBirth(LocalDate.of(2012,10,12));
         list.add(user2);
 
-        return this.JSON_SUC(list);
+        return this.JsonViewSuc(list);
 
     }
     @Schema(description = "用户查询信息", name="UserQuer")
