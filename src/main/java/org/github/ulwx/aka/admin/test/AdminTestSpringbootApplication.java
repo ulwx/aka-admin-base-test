@@ -10,6 +10,7 @@ public class AdminTestSpringbootApplication {
     public static void main(String[] args) throws Exception{
         ConfigurableApplicationContext context=null;
          context =SpringApplication.run(AdminTestSpringbootApplication.class, args);
+         int i=0;
 
     }
 }

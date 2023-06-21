@@ -3,7 +3,7 @@ package org.github.ulwx.aka.admin.test.action.usermod;
 import com.github.ulwx.aka.webmvc.annotation.AkaMvcActionMethod;
 import com.github.ulwx.aka.webmvc.exception.ServiceException;
 import com.github.ulwx.aka.webmvc.web.action.ActionSupport;
-import com.github.ulwx.aka.webmvc.web.action.CbResultJson;
+import com.github.ulwx.aka.webmvc.web.action.CbResult;
 import com.ulwx.tool.RandomUtils;
 import com.ulwx.tool.RequestUtils;
 import com.ulwx.tool.StringUtils;
@@ -128,7 +128,7 @@ public class UserAction extends ActionSupport {
                     schema = @Schema(type = "object",implementation =UserQuery.class )
 
             ))
-    @ApiResponse(description = "请求用户列表响应",content = @Content(schema = @Schema( anyOf = {CbResultJson.class,MyUser.class})))
+    @ApiResponse(description = "请求用户列表响应",content = @Content(schema = @Schema( anyOf = {CbResult.class,MyUser.class})))
     @AkaMvcActionMethod(httpMethod = "post", requestContentType ="application/json")
     public String getUserList(){
 

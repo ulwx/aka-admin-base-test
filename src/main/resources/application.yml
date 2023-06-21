@@ -35,18 +35,25 @@ aka:
       user-ext-inf-plugin: NONE
       #前端登录密码rsa加密私钥
       client-private-key: MIIBVAIBADANBgkqhkiG9w0BAQEFAASCAT4wggE6AgEAAkEAi/52sB31O/1aBK72kQzcs9NskBDoJPgp1VVPHFn0BjyHRwNJ2V/MlmSO/WrsrtI+xqPCgTFd/h9BmXufQ4Q3AwIDAQABAkAY++DSrYYGnsBh9Zera1A4B5NoYpwLfP56RC9KMAOM2RwMqizZmAVmIdFl2gSYxkQxzn1T60kzJ1aq0KIN/zUBAiEA306hOO5Ky+xyELhYwKJtJrecVE3cWWc1K6ZrUHyxbjsCIQCgfVMmMsR6Obk+tvzuWecWIYf5h4sDOQww3j3nJVnl2QIgBGHAnCNg6Ft9aYKUi0MkrSvRL35Popl5259qX6vyt10CIAY3tL/3GYuOrvGSD0yAqSY/WFA/gxA15pYCFi3dUZVJAiEA127BTg/iYElzgIDzLJi32ZR/0/huE+nwCY9YwXrbW1w=
-  file-upload:
-    upload-url:
-      single: http://dev.jyd100.com:7979/fileUpload/intf/v1/file/CrossUpload
-      #多文件上传URL
-      many: http://dev.jyd100.com:7979/fileUpload/intf/v1/file/CrossUploadMany
-      #上传活动zip的URL
-      activity: http://dev.jyd100.com:7979/fileUpload/intf/v1/file/CrossUploadActivity
-      #直连上传文件
-      direct: http://dev.jyd100.com:7979/fileUpload/intf/v1/file/Upload
-    #文件浏览地址
-    list-url: http://dev.jyd100.com:7979/fileUpload/list.jsp?dir=/
 
+    file-server-urls:
+      crossUploadSingle: http://localhost:9090/fileserver/uploadfile/upload-CrossUpload-genBean.action
+      #多文件上传URL
+      crossUploadMany: http://localhost:9090/fileserver/uploadfile/upload-CrossUploadMany-genBean.action
+      #上传活动zip的URL
+      crossUploadZip: http://localhost:9090/fileserver/uploadfile/upload-CrossUploadActivity-genBean.action
+      #直连上传文件
+      directUpload: http://localhost:9090/fileserver/uploadfile/upload-Upload-genBean.action
+      #文件浏览地址
+      list-url: http://localhost:9090/fileserver/list.jsp?dir=/
+  ueditor:
+    #默认为com.github.ulwx.aka.ueditor.support.MyUploader
+#   uploader-plugin: com.github.ulwx.aka.ueditor.support.MyUploader
+    #直连上传的URL，用于图片，文件，视频上传的直连URL
+    direct-upload-url: http://localhost:9090/fileserver/uploadfile/upload-Upload-genBean.action
+  #存放sms_config表的数据源
+  smssend:
+    ds: sysdb
   dbutils:
     table-colum-rule: underline_to_camel
     table-name-rule: underline_to_camel
