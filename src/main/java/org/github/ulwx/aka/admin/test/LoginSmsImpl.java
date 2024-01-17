@@ -23,6 +23,5 @@ public class LoginSmsImpl implements ILoginSms {
 
     public static void main(String[] args) {
         SmsUtil.sendMsg("1","18565574709","客户您好，验证码是4444，请勿泄露他人");
-
     }
 }
